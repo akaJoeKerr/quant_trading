@@ -1,0 +1,79 @@
+# VeighNa 量化交易系统 - 依赖要求
+
+# Python 核心
+python>=3.10,<3.14
+
+# VeighNa 核心框架
+vnpy>=4.3.0
+
+# 交易接口
+vnpy_ctp>=1.0.0          # CTP 接口（期货、期权）
+vnpy_xtp>=1.0.0          # 中泰 XTP 接口
+vnpy_tora>=1.0.0         # 华鑫奇点接口
+vnpy_emt>=1.0.0          # 东方财富 EMT 接口
+vnpy_gm>=1.0.0           # 掘金接口
+
+# CTA 策略模块
+vnpy_ctastrategy>=1.0.0  # CTA 策略引擎
+vnpy_ctabacktester>=1.0.0 # CTA 策略回测
+
+# 组合策略模块
+vnpy_portfoliostrategy>=1.0.0
+
+# 数据管理模块
+vnpy_datamanager>=1.0.0
+
+# 风险管理模块
+vnpy_riskmanager>=1.0.0
+
+# Web 服务模块
+vnpy_webtrader>=1.0.0
+
+# 图表模块
+vnpy_chartwizard>=1.0.0
+
+# AI 量化模块（4.0 新增）
+vnp_alpha>=1.0.0
+
+# 数据库
+vnpy_sqlite>=1.0.0       # SQLite 数据库
+vnpy_mysql>=1.0.0        # MySQL 数据库
+vnpy_postgresql>=1.0.0   # PostgreSQL 数据库
+
+# 数据服务
+vnpy_rqdata>=1.0.0       # RQData 数据服务
+vnpy_xt>=1.0.0           # 迅投研数据服务
+vnpy_tushare>=1.0.0      # TuShare 数据服务
+
+# RPC 服务
+vnpy_rpcservice>=1.0.0
+
+# REST Client
+vnpy_rest>=1.0.0
+
+# Websocket Client
+vnpy_websocket>=1.0.0
+
+# 数据库连接
+pymysql>=1.0.0
+psycopg2>=2.8.0
+aiomysql>=0.2.0
+asyncpg>=0.23.0
+
+# 数据处理
+pandas>=1.5.0
+numpy>=1.21.0
+
+# 可视化
+matplotlib>=3.5.0
+pyqt5>=5.15.0
+pyqtwebengine>=5.15.0
+
+# 日志
+logging>=0.0.0  # Python 标准库
+
+# 其他工具
+aiohttp>=3.8.0
+aiodns>=3.0.0
+async-timeout>=4.0.0
+python-dotenv>=0.19.0
