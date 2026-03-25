@@ -1,0 +1,271 @@
+# 量化交易系统配置
+# Quant Trading System Configuration
+# 版本：1.0.0
+# 更新日期：2026-03-25
+
+---
+
+## 交易接口配置
+
+```
+CTP:
+  name: "CTP"
+  type: "CTP"
+  product: "CFFEX"  # 股指期货
+  variety: "CTP"     # 期货
+  # 以下为环境变量，运行时从.env 加载
+  # password: "${CTP_PASSWORD}"
+  # brokerid: "${CTP_BROKERID}"
+  # userid: "${CTP_USERID}"
+  # appid: "${CTP_APPID}"
+  # authcode: "${CTP_AUTHCODE}"
+```
+
+---
+
+## 数据库配置
+
+```
+database:
+  type: "sqlite"           # sqlite / mysql / postgresql
+  path: "./data.db"        # SQLite 路径
+  max_connections: 10      # MySQL/PostgreSQL 最大连接数
+  pool_size: 5             # 连接池大小
+```
+
+---
+
+## 日志配置
+
+```
+logging:
+  active: true
+  level: "INFO"            # DEBUG / INFO / WARNING / ERROR
+  console: true
+  file:
+    enabled: true
+    name: "log"
+    path: "./logs"
+    size: 10485760          # 10MB
+    max_files: 10
+    rotation: "size"        # size / time
+    format: "%Y-%m-%d %H:%M:%S"
+    filter_sensitive: true  # 过滤密码等敏感信息
+```
+
+---
+
+## 邮件配置（可选）
+
+```
+email:
+  enabled: false
+  server: "smtp.example.com"
+  port: 25
+  username: "${EMAIL_USERNAME}"
+  password: "${EMAIL_PASSWORD}"
+  sender: "${EMAIL_SENDER}"
+  receiver:
+    - "${EMAIL_RECEIVER_1}"
+    - "${EMAIL_RECEIVER_2}"
+```
+
+---
+
+## 交易员配置
+
+```
+trader:
+  name: ""
+  dir: "./trader"
+  ui: "qt"
+  setting: "setting.json"
+  log: "log.json"
+  error: "error.log"
+  app: "app.json"
+  gateway: "gateway.json"
+  database: "database.json"
+  datafeed: "datafeed.json"
+  risk: "risk.json"
+  web: "web.json"
+  ui: "ui.json"
+  rpc: "rpc.json"
+  chart: "chart.json"
+  data: "data.json"
+```
+
+---
+
+## 风险管理配置
+
+```
+risk:
+  # 持仓限制
+  max_position: 100           # 单品种最大持仓
+  total_position: 200         # 总持仓限制
+  consecutive_loss: 5         # 连续亏损限制
+  
+  # 价格限制
+  max_price_change: 0.2       # 最大涨跌幅限制 20%
+  max_volatility: 3.0         # 最大波动率 3σ
+  price_filter: 0.05          # 异常价格过滤 ±5%
+  
+  # 时间限制
+  trading_window_start: "09:00"
+  trading_window_end: "15:00"
+  cancel_window_start: "09:00"
+  cancel_window_end: "15:00"
+  close_before_close: "14:55"
+  
+  # 风险参数
+  max_daily_loss: 10000       # 最大日亏损（元）
+  max_drawdown: 0.1           # 最大回撤 10%
+  max_risk_per_trade: 0.02    # 单笔交易最大风险 2%
+  max_total_exposure: 2.0     # 总风险暴露 2 倍
+  
+  # 止损止盈
+  stop_loss_type: "ATR"       # ATR / fixed_price
+  stop_loss_multiplier: 2.0   # ATR 倍数
+  take_profit_type: "ATR"
+  take_profit_multiplier: 3.0
+  
+  # 仓位管理
+  position_size_type: "fixed" # fixed / risk
+  position_size_value: 100000 # 固定仓位价值
+  risk_ratio: 0.01            # 风险仓位比例
+  
+  # 资金管理
+  cash_reserve_ratio: 0.2     # 现金储备比例
+  max_leverage: 2.0           # 最大杠杆
+```
+
+---
+
+## 策略配置
+
+```
+strategies:
+  trend_following:
+    enabled: true
+    boll_period: 20
+    boll_dev: 1
+    atr_period: 14
+    atr_multiplier: 2
+    stoploss: null
+    takeprofit: null
+    
+  mean_reversion:
+    enabled: false
+    rsi_period: 14
+    rsi_overbought: 70
+    rsi_oversold: 30
+    
+  momentum:
+    enabled: false
+    ma_period: 20
+    ma_fast: 10
+    ma_slow: 30
+```
+
+---
+
+## 回测配置
+
+```
+backtesting:
+  start_date: "20230101"
+  end_date: "20231231"
+  hot_start: true
+  initial_capital: 1000000    # 初始资金
+  commission: 0.0001          # 手续费率
+  slipage: 0.001              # 滑点
+  
+  save_results: true
+  result_path: "./backtest_results/"
+```
+
+---
+
+## 数据配置
+
+```
+data:
+  path: "./data"
+  backtest_path: "./data/backtest"
+  real_path: "./data/real"
+  
+  formats:
+    - "csv"
+    - "parquet"
+    - "hdf5"
+    
+  update_mode: "incremental"   # incremental / full
+  cache_size: 10000
+```
+
+---
+
+## 环境变量说明
+
+以下配置项应从 `.env` 文件加载：
+
+```
+# CTP 接口
+CTP_PASSWORD=your_password
+CTP_BROKERID=9999
+CTP_USERID=your_userid
+CTP_APPID=your_appid
+CTP_AUTHCODE=your_authcode
+
+# 邮件
+EMAIL_USERNAME=your_email
+EMAIL_PASSWORD=your_password
+EMAIL_SENDER=sender@example.com
+EMAIL_RECEIVER_1=receiver1@example.com
+EMAIL_RECEIVER_2=receiver2@example.com
+```
+
+---
+
+## 使用说明
+
+### 1. 创建 `.env` 文件
+
+在项目根目录创建 `.env` 文件，填入敏感信息：
+
+```bash
+# .env
+CTP_PASSWORD=your_password
+CTP_BROKERID=9999
+CTP_USERID=your_userid
+CTP_APPID=your_appid
+CTP_AUTHCODE=your_authcode
+EMAIL_USERNAME=your_email
+EMAIL_PASSWORD=your_password
+```
+
+### 2. 添加到 `.gitignore`
+
+```gitignore
+.env
+config/*.json
+config/*.yaml
+```
+
+### 3. 加载配置
+
+在 Python 代码中使用：
+
+```python
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+password = os.getenv("CTP_PASSWORD")
+```
+
+---
+
+## 版本历史
+
+- **1.0.0** (2026-03-25): 初始版本，统一配置管理
